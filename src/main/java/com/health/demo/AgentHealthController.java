@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/agents")
 public class AgentHealthController {
