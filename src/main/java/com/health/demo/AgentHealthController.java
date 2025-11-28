@@ -92,7 +92,7 @@ public class AgentHealthController {
             return ResponseEntity.badRequest().build();
         }
 
-        // ✅ MUST use ClassPathResource for resources/static
+        //  MUST use ClassPathResource for resources/static
         ClassPathResource resource =
                 new ClassPathResource("static/scripts/" + fileName);
 
@@ -107,6 +107,35 @@ public class AgentHealthController {
                 .contentLength(resource.contentLength())
                 .body(resource);
     }
+
+
+    @GetMapping("/targets")
+    public ResponseEntity<?> getTargetsForUI() {
+
+        return ResponseEntity.ok(
+                lastHealth.values().stream().map(payload -> {
+
+                    long seconds = Duration.between(
+                            payload.getTimestamp(),
+                            Instant.now()
+                    ).getSeconds();
+
+                    boolean alive = seconds <= 10;
+
+                    return Map.of(
+                            "id", payload.getAgentId(),
+                            "deviceName", payload.getHostname(),
+                            "agentId", payload.getAgentId(),
+                            "os", payload.getOs(),
+                            "level", "Easy", // static for now
+                            "lastSeen", seconds + " sec ago",
+                            "status", alive ? "online" : "offline"
+                    );
+
+                }).toList()
+        );
+    }
+
 
 }
 
