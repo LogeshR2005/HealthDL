@@ -86,7 +86,7 @@ public class AgentHealthController {
         String fileName;
 
         if (os.equalsIgnoreCase("windows")) {
-            fileName = "windows-hardening.bat";
+            fileName = "windows-hardening.ps1";
         } else if (os.equalsIgnoreCase("linux")) {
             fileName = "linux-hardening.sh";
         } else {
